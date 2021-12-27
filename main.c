@@ -373,14 +373,16 @@ void T(char ans [],Graph *graph){
 #include <stdlib.h>
 
 
-char* cut(char str[], int len, int i , int j){
-    char* str_cnt=(char*)malloc(len + 1);
+char* cut(char str[], int t, int i){
+    char* str_cnt=(char*)malloc(t + 1);
     int g=0;
-    for (int k = i; k <= j; k++)
-    {
-        str_cnt[g]=str[k];
-        g++;
+    int k = i;
+    int cnt=0;
+    while (cnt<t){
+        str_cnt[g++]=str[k++];
+        cnt++;
     }
+    str_cnt[t]='\0';
     //printf("--------------\n %s",str_cnt);
     return str_cnt;
 }
@@ -392,7 +394,7 @@ int main(){
     gets(f);
     int len= strlen(f)+1;
     char nn[len];
-    strcpy(nn,cut(f , len, 0,len));
+    strcpy(nn,cut(f , len, 0));
     printf("%s\n",nn);
     int r=0, b=0;
     while(b<len){
@@ -414,7 +416,7 @@ int main(){
     }
     printf("len-r = %d\n", strlen(n));
     char cnt[strlen(n)-1];
-    strcpy(cnt,cut(n , strlen(n), 1,strlen(n)));
+    strcpy(cnt,cut(n , strlen(n)-1, 1));
     printf("%s\n",cnt);
     printf("cnt[strlen(n)-1]=%d\n",strlen(n)-1);
     int i=0;
@@ -442,7 +444,7 @@ int main(){
     Graph *g=A(current, i);
 
     char ans[strlen(cnt)-i];
-    strcpy(ans,cut(cnt , strlen(cnt),i,strlen(cnt))) ;
+    strcpy(ans,cut(cnt , (strlen(cnt)-i),i)) ;
     printf("-------%s\n",ans);
     ans[strlen(cnt)-i]='\0';
     while (strlen(ans)!=0) {
@@ -468,13 +470,13 @@ int main(){
 //            }
 //            continue;
             printf("t=%d\n",t);
-            printf("b=%s\n",cut(ans, strlen(ans), 1,  t+1));
-            B(cut(ans, strlen(ans), 1, t), g);
+            printf("b=%s\n",cut(ans,t, 1));
+            B(cut(ans, t, 1), g);
             for(int i=0; i<g->n_nodes; i++) {
                 printf("%c\n ", g->nodes[i]->label);
             }
-            printf("bbbbbbbbbbbbbbbbb=%s\n",cut(ans, strlen(ans), t+1, strlen(ans)-1));
-            strcpy(ans,cut(ans, strlen(ans), t+1 , strlen(ans)));
+            printf("bbbbbbbbbbbbbbbbb=%s\n",cut(ans, (strlen(ans)-t-1), t+1));
+            strcpy(ans,cut(ans, (strlen(ans)-t-1), t+1 ));
         }
         }
 
