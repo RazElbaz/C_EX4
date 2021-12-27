@@ -497,9 +497,12 @@ int main(){
                     t++;
                 }
             }
-            printf("d=%d\n",cut(ans, t, 1));
+            printf("d=%d\n",t);
             D(cut(ans, t, 1), g);
             strcpy(ans, cut(ans, (strlen(ans) - t - 1), t + 1));
+            for (int i = 0; i < g->n_nodes; i++) {
+                printf("%c\n ", g->nodes[i]->label);
+            }
         }
 //
 //        if (first == 'S') {
