@@ -107,7 +107,7 @@ void delete_node(Graph *graph, Node *node) {
         }
         graph->nodes = (Node **)realloc(graph->nodes,(graph->n_nodes-1)*sizeof(Node *));
         for (int i = 0; i <graph->n_nodes; i++){
-            for (int j = 0; j <graph->n_nodes; j++){
+            for (int j = 0; j <graph->nodes[i]->n_neighbors; j++){
                 if(graph->nodes[i]->neighbors[j]->label==node->label){
                     Node *s=graph->nodes[i];
                     Node *r=graph->nodes[i]->neighbors[j];
@@ -305,7 +305,13 @@ void B(char ans [],Graph *graph){
 
 /////////////////////////////////////////////////////////
 void D(char ans [],Graph *graph){
-    delete_node(graph,create_node(graph,ans[0]));
+    Node *save;
+    for (int i = 0; i <graph->n_nodes ; ++i) {
+        if(graph->nodes[i]->label==ans[0]){
+            save=graph->nodes[i];
+        }
+    }
+    delete_node(graph,save);
 }
 
 
@@ -448,7 +454,7 @@ int main(){
     printf("-------%s\n",ans);
     ans[strlen(cnt)-i]='\0';
     while (strlen(ans)!=0) {
-    char first=ans[0];
+        char first = ans[0];
         if (first == 'B') {
             int t = 0;
             for (int j = 1; j < strlen(ans); j++) {
@@ -469,32 +475,32 @@ int main(){
 //                printf("%c\n ", g->nodes[i]->label);
 //            }
 //            continue;
-            printf("t=%d\n",t);
-            printf("b=%s\n",cut(ans,t, 1));
+            printf("t=%d\n", t);
+            printf("b=%s\n", cut(ans, t, 1));
             B(cut(ans, t, 1), g);
-            for(int i=0; i<g->n_nodes; i++) {
+            for (int i = 0; i < g->n_nodes; i++) {
                 printf("%c\n ", g->nodes[i]->label);
             }
-            printf("bbbbbbbbbbbbbbbbb=%s\n",cut(ans, (strlen(ans)-t-1), t+1));
-            strcpy(ans,cut(ans, (strlen(ans)-t-1), t+1 ));
+            printf("bbbbbbbbbbbbbbbbb=%s\n", cut(ans, (strlen(ans) - t - 1), t + 1));
+            strcpy(ans, cut(ans, (strlen(ans) - t - 1), t + 1));
+            continue;
         }
+
+
+        if (first == 'D') {
+            int t = 0;
+            for (int j = 1; j < strlen(ans); j++) {
+                char c = ans[j];
+                if (c == 'B' || c == 'D' || c == 'S' || c == 'T' || c == '\0') {
+                    break;
+                } else {
+                    t++;
+                }
+            }
+            printf("d=%d\n",cut(ans, t, 1));
+            D(cut(ans, t, 1), g);
+            strcpy(ans, cut(ans, (strlen(ans) - t - 1), t + 1));
         }
-
-
-
-//        if (first == 'D') {
-//            int t = 0;
-//            for (int j = 1; j < strlen(ans); j++) {
-//                char c = ans[j];
-//                if (c == 'B' || c == 'D' || c == 'S' || c == 'T' || c == '\0') {
-//                    break;
-//                } else {
-//                    t++;
-//                }
-//            }
-//            D(cut(ans, strlen(ans), 1, t), g);
-//            strcpy(ans,cut(ans, strlen(ans), t+1 , strlen(ans)-1));
-//        }
 //
 //        if (first == 'S') {
 //            int t = 0;
@@ -525,7 +531,7 @@ int main(){
 //            ans = cut(ans, strlen(ans), t+2, strlen(ans));
 //        }
 
-
+    }
 //    show_graph(g);
     return 0;
 
