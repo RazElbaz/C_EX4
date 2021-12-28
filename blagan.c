@@ -432,9 +432,6 @@ int main(){
         }
     }
 
-
-//    printf("i= %d\n",i);
-//    printf("cnt= %s\n",cnt);
     int copy=0;
     char current[i+1];
     for (int l = 0; l <=i-1 ; l++) {
@@ -458,7 +455,6 @@ int main(){
 
     char ans[strlen(cnt)-i];
     strcpy(ans,cut(cnt , (strlen(cnt)-i),i)) ;
-//    printf("-------%s\n",ans);
     ans[strlen(cnt)-i]='\0';
     while (strlen(ans)!=0) {
         char first = ans[0];
@@ -473,13 +469,7 @@ int main(){
                 }
             }
 
-//            printf("t=%d\n", t);
-//            printf("b=%s\n", cut(ans, t, 1));
             B(cut(ans, t, 1), g);
-//            for (int i = 0; i < g->n_nodes; i++) {
-//                printf("%c-  ", g->nodes[i]->label);
-//            }
-//            printf("bbbbbbbbbbbbbbbbb=%s\n", cut(ans, (strlen(ans) - t - 1), t + 1));
             strcpy(ans, cut(ans, (strlen(ans) - t - 1), t + 1));
             for (int i = 0; i < g->n_nodes; i++) {
                 printf("B - srccc: %c - ", g->nodes[i]->label);
@@ -490,7 +480,7 @@ int main(){
                 }
                 printf("\n");
             }
-            continue;
+//            continue;
         }
 
 
@@ -505,7 +495,7 @@ int main(){
                     t++;
                 }
             }
-//            printf("d=%d\n", t);
+
             D(cut(ans, t, 1), g);
             strcpy(ans, cut(ans, (strlen(ans) - t - 1), t + 1));
             for (int i = 0; i < g->n_nodes; i++) {
@@ -518,6 +508,34 @@ int main(){
                 printf("\n");
             }
         }
+
+//        if (first == 'A') {
+//            int t = 0;
+//            for (int j = 1; j < strlen(ans); j++) {
+//                char c = ans[j];
+//                if (c == 'B' || c == 'D' || c == 'S' || c == 'T' || c == '\0'|| c=='A') {
+//                    break;
+//                } else {
+//                    t++;
+//                }
+//            }
+//            g=A(cut(ans, t, 1), t);
+//            strcpy(ans, cut(ans, (strlen(ans) - t - 1), t + 1));
+//            for (int i = 0; i < g->n_nodes; i++) {
+//                printf("A - srccc: %c - ", g->nodes[i]->label);
+//                for (int l = 0; l < g->nodes[i]->n_neighbors; ++l) {
+//                    printf("kokod %c - ", g->nodes[i]->neighbors[l]->label);
+//                    printf("wight %f - ", g->nodes[i]->weights[l]);
+//
+//                }
+//                printf("\n");
+//            }
+//            continue;
+//        }
+
+
+
+
     }
 //
 //        if (first == 'S') {
@@ -550,7 +568,7 @@ int main(){
 //        }
 
 }
-//    show_graph(g);
+
 //    return 0;
 //
 //}
