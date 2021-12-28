@@ -15,10 +15,10 @@ typedef struct graph_t {
     struct node_t **nodes; /* list of pointers of nodes */
 } Graph;
 
-typedef struct path_t {
-    char *path; /* represent a path in string */
-    double cost;
-} Path;
+//typedef struct path_t {
+//    char *path; /* represent a path in string */
+//    double cost;
+//} Path;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -31,16 +31,16 @@ Graph *init_graph() {
 }
 
 
-//Free the memory area that a graph used
-void free_graph(struct graph_t *graph) {
-    int i;
-    for(i=0; i<graph->n_nodes; i++) {
-        free(graph->nodes[i]);
-    }
-
-    free(graph->nodes);
-    free(graph);
-}
+////Free the memory area that a graph used
+//void free_graph(struct graph_t *graph) {
+//    int i;
+//    for(i=0; i<graph->n_nodes; i++) {
+//        free(graph->nodes[i]);
+//    }
+//
+//    free(graph->nodes);
+//    free(graph);
+//}
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -123,17 +123,17 @@ void delete_node(Graph *graph, Node *node) {
             graph->nodes[j] = graph->nodes[i];
             j++;
         }  }
-        graph->nodes = (Node **) realloc(graph->nodes, (graph->n_nodes - 1) * sizeof(Node *));
-        graph->n_nodes -= 1;
-        for (int i = 0; i <graph->n_nodes; i++){
-            for (int j = 0; j <graph->nodes[i]->n_neighbors; j++){
-                if(graph->nodes[i]->neighbors[j]->label==node->label){
-                    Node *s=graph->nodes[i];
-                    Node *r=graph->nodes[i]->neighbors[j];
-                    delete_edge(graph,s,r);
-                }
-            }}
-    }
+    graph->nodes = (Node **) realloc(graph->nodes, (graph->n_nodes - 1) * sizeof(Node *));
+    graph->n_nodes -= 1;
+    for (int i = 0; i <graph->n_nodes; i++){
+        for (int j = 0; j <graph->nodes[i]->n_neighbors; j++){
+            if(graph->nodes[i]->neighbors[j]->label==node->label){
+                Node *s=graph->nodes[i];
+                Node *r=graph->nodes[i]->neighbors[j];
+                delete_edge(graph,s,r);
+            }
+        }}
+}
 
 
 
@@ -143,103 +143,103 @@ void delete_node(Graph *graph, Node *node) {
 ////////////////////////////////////////////////////////////
 
 
-int get_node_index(Graph *graph, Node *node) {
-    int i;
-    Node *n;
-    for(i = 0; i < graph->n_nodes; i++) {
-        n = graph->nodes[i];
-        if(n->label == node->label) {
-            return i;
-        }
-    }
-    printf("label : %c\n", node->label);
-    printf("Invalid label detected.\n");
-    return -1;
-}
-
-int are_same_nodes(Node *node1, Node *node2) {
-    return node1 == node2 && node1->label == node2->label;
-}
-
-Path *dijkstra(Graph *graph, Node *start, Node *end) {
-    int i;
-    Node *neighbor;
-    Node *node;
-    Node *current;
-    double distances[graph->n_nodes];
-    double alternative;
-    double shortest;
-    int previous[graph->n_nodes];
-    int visited[graph->n_nodes];
-    int path_indices[graph->n_nodes];
-    int n_visited, index, shortest_index, path_length, u;
-
-    for(i = 0; i < graph->n_nodes; i++) {
-        node = graph->nodes[i];
-
-        if(node->label == start->label) {
-            distances[i] = 0;
-        } else {
-            distances[i] = 10000;
-        }
-
-        previous[i] = -1;
-        visited[i] = 0; /* set ith node as unvisited */
-    }
-
-    n_visited = 0;
-    while(n_visited < graph->n_nodes) {
-        shortest = 10000;
-        shortest_index = 0;
-        for(i = 0; i < graph->n_nodes; i++) {
-            if(distances[i] < shortest && !visited[i]) {
-                shortest_index = i;
-                shortest = distances[i];
-            }
-        }
-
-        current = graph->nodes[shortest_index];
-        visited[shortest_index] = 1;
-        n_visited += 1;
-
-        if(are_same_nodes(current, end)) {
-            break;
-        }
-
-        for(i = 0; i < current->n_neighbors; i++) {
-            neighbor = current->neighbors[i];
-            index = get_node_index(graph, neighbor);
-            alternative = distances[shortest_index] + current->weights[i];
-
-            if(distances[index] > alternative) {
-                distances[index] = alternative;
-                previous[index] = shortest_index;
-            }
-        }
-    }
-
-    path_length = 0;
-    u = get_node_index(graph, end);
-    while(u != -1) {
-        path_indices[path_length] = u;
-        u = previous[u];
-        path_length += 1;
-    }
-
-    Path *path = (Path *)malloc(sizeof(Path));
-    char *p = (char *)malloc(path_length+1);
-    for(i = 0; i < path_length; i++) {
-        index = path_indices[path_length-i-1];
-        p[i] = graph->nodes[index]->label;
-    }
-    p[path_length] = '\0';
-
-    i = get_node_index(graph, end);
-    path->path = p;
-    path->cost = distances[i];
-    return path;
-}
-
+//int get_node_index(Graph *graph, Node *node) {
+//    int i;
+//    Node *n;
+//    for(i = 0; i < graph->n_nodes; i++) {
+//        n = graph->nodes[i];
+//        if(n->label == node->label) {
+//            return i;
+//        }
+//    }
+//    printf("label : %c\n", node->label);
+//    printf("Invalid label detected.\n");
+//    return -1;
+//}
+//
+//int are_same_nodes(Node *node1, Node *node2) {
+//    return node1 == node2 && node1->label == node2->label;
+//}
+//
+//Path *dijkstra(Graph *graph, Node *start, Node *end) {
+//    int i;
+//    Node *neighbor;
+//    Node *node;
+//    Node *current;
+//    double distances[graph->n_nodes];
+//    double alternative;
+//    double shortest;
+//    int previous[graph->n_nodes];
+//    int visited[graph->n_nodes];
+//    int path_indices[graph->n_nodes];
+//    int n_visited, index, shortest_index, path_length, u;
+//
+//    for(i = 0; i < graph->n_nodes; i++) {
+//        node = graph->nodes[i];
+//
+//        if(node->label == start->label) {
+//            distances[i] = 0;
+//        } else {
+//            distances[i] = 10000;
+//        }
+//
+//        previous[i] = -1;
+//        visited[i] = 0; /* set ith node as unvisited */
+//    }
+//
+//    n_visited = 0;
+//    while(n_visited < graph->n_nodes) {
+//        shortest = 10000;
+//        shortest_index = 0;
+//        for(i = 0; i < graph->n_nodes; i++) {
+//            if(distances[i] < shortest && !visited[i]) {
+//                shortest_index = i;
+//                shortest = distances[i];
+//            }
+//        }
+//
+//        current = graph->nodes[shortest_index];
+//        visited[shortest_index] = 1;
+//        n_visited += 1;
+//
+//        if(are_same_nodes(current, end)) {
+//            break;
+//        }
+//
+//        for(i = 0; i < current->n_neighbors; i++) {
+//            neighbor = current->neighbors[i];
+//            index = get_node_index(graph, neighbor);
+//            alternative = distances[shortest_index] + current->weights[i];
+//
+//            if(distances[index] > alternative) {
+//                distances[index] = alternative;
+//                previous[index] = shortest_index;
+//            }
+//        }
+//    }
+//
+//    path_length = 0;
+//    u = get_node_index(graph, end);
+//    while(u != -1) {
+//        path_indices[path_length] = u;
+//        u = previous[u];
+//        path_length += 1;
+//    }
+//
+//    Path *path = (Path *)malloc(sizeof(Path));
+//    char *p = (char *)malloc(path_length+1);
+//    for(i = 0; i < path_length; i++) {
+//        index = path_indices[path_length-i-1];
+//        p[i] = graph->nodes[index]->label;
+//    }
+//    p[path_length] = '\0';
+//
+//    i = get_node_index(graph, end);
+//    path->path = p;
+//    path->cost = distances[i];
+//    return path;
+//}
+//
 
 //void show_path(Path *path, int show_cost) {
 //    int i;
@@ -281,9 +281,9 @@ Graph * A(char *ans, int len ){
 
         }
     }
-    for(int i=0; i<g->n_nodes; i++) {
-        printf("%c\n ", g->nodes[i]->label);
-    }
+//    for(int i=0; i<g->n_nodes; i++) {
+//        printf("%c\n ", g->nodes[i]->label);
+//    }
     return g;
 }
 ///////////////////////////////////////////////////////////
@@ -425,7 +425,7 @@ int main(){
     int i=0;
     for (int j = 0; j < strlen(cnt); j++) {
         char c= cnt[j];
-        if (c=='B'||c=='D'||c=='S'||c=='T'){
+        if (c=='B'||c=='D'||c=='S'||c=='T'||c=='\0'|| c=='A'){
             break;
         }else{
             i++;
@@ -446,19 +446,19 @@ int main(){
 
     Graph *g=A(current, i);
     for (int i = 0; i < g->n_nodes; i++) {
-        printf("srccc: %c - ", g->nodes[i]->label);
-    for (int l = 0; l < g->nodes[i]->n_neighbors; ++l) {
-        printf("kokod %c - ", g->nodes[i]->neighbors[l]->label);
-        printf("wight %f - ", g->nodes[i]->weights[l]);
+        printf("A -srccc: %c - ", g->nodes[i]->label);
+        for (int l = 0; l < g->nodes[i]->n_neighbors; ++l) {
+            printf("kokod %c - ", g->nodes[i]->neighbors[l]->label);
+            printf("wight %f - ", g->nodes[i]->weights[l]);
 
-    }
+        }
         printf("\n");
     }
 
 
     char ans[strlen(cnt)-i];
     strcpy(ans,cut(cnt , (strlen(cnt)-i),i)) ;
-    printf("-------%s\n",ans);
+//    printf("-------%s\n",ans);
     ans[strlen(cnt)-i]='\0';
     while (strlen(ans)!=0) {
         char first = ans[0];
@@ -466,7 +466,7 @@ int main(){
             int t = 0;
             for (int j = 1; j < strlen(ans); j++) {
                 char c = ans[j];
-                if (c == 'B' || c == 'D' || c == 'S' || c == 'T' || c == '\0') {
+                if (c == 'B' || c == 'D' || c == 'S' || c == 'T' || c == '\0'|| c=='A') {
                     break;
                 } else {
                     t++;
@@ -476,48 +476,47 @@ int main(){
 //            printf("t=%d\n", t);
 //            printf("b=%s\n", cut(ans, t, 1));
             B(cut(ans, t, 1), g);
-            for (int i = 0; i < g->n_nodes; i++) {
-                printf("%c-  ", g->nodes[i]->label);
-            }
+//            for (int i = 0; i < g->n_nodes; i++) {
+//                printf("%c-  ", g->nodes[i]->label);
+//            }
 //            printf("bbbbbbbbbbbbbbbbb=%s\n", cut(ans, (strlen(ans) - t - 1), t + 1));
             strcpy(ans, cut(ans, (strlen(ans) - t - 1), t + 1));
+            for (int i = 0; i < g->n_nodes; i++) {
+                printf("B - srccc: %c - ", g->nodes[i]->label);
+                for (int l = 0; l < g->nodes[i]->n_neighbors; ++l) {
+                    printf("kokod %c - ", g->nodes[i]->neighbors[l]->label);
+                    printf("wight %f - ", g->nodes[i]->weights[l]);
+
+                }
+                printf("\n");
+            }
             continue;
         }
 
-        for (int i = 0; i < g->n_nodes; i++) {
-            printf("srccc: %c - ", g->nodes[i]->label);
-            for (int l = 0; l < g->nodes[i]->n_neighbors; ++l) {
-                printf("kokod %c - ", g->nodes[i]->neighbors[l]->label);
-                printf("wight %f - ", g->nodes[i]->weights[l]);
 
-            }
-            printf("\n");
-        }
 
         if (first == 'D') {
             int t = 0;
             for (int j = 1; j < strlen(ans); j++) {
                 char c = ans[j];
-                if (c == 'B' || c == 'D' || c == 'S' || c == 'T' || c == '\0') {
+                if (c == 'B' || c == 'D' || c == 'S' || c == 'T' || c == '\0'|| c=='A') {
                     break;
                 } else {
                     t++;
                 }
             }
-            printf("d=%d\n", t);
+//            printf("d=%d\n", t);
             D(cut(ans, t, 1), g);
             strcpy(ans, cut(ans, (strlen(ans) - t - 1), t + 1));
+            for (int i = 0; i < g->n_nodes; i++) {
+                printf(" D -srccc: %c - ", g->nodes[i]->label);
+                for (int l = 0; l < g->nodes[i]->n_neighbors; ++l) {
+                    printf("kokod %c - ", g->nodes[i]->neighbors[l]->label);
+                    printf("wight %f - ", g->nodes[i]->weights[l]);
 
-        }
-
-        for (int i = 0; i < g->n_nodes; i++) {
-            printf("srccc: %c - ", g->nodes[i]->label);
-            for (int l = 0; l < g->nodes[i]->n_neighbors; ++l) {
-                printf("kokod %c - ", g->nodes[i]->neighbors[l]->label);
-                printf("wight %f - ", g->nodes[i]->weights[l]);
-
+                }
+                printf("\n");
             }
-            printf("\n");
         }
     }
 //
@@ -550,7 +549,7 @@ int main(){
 //            ans = cut(ans, strlen(ans), t+2, strlen(ans));
 //        }
 
-    }
+}
 //    show_graph(g);
 //    return 0;
 //
