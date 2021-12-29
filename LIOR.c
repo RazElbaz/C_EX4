@@ -38,17 +38,14 @@ Graph *init_graph() {
     return graph;
 }
 
-
 void free_graph(struct graph_ *graph) {
     int i;
     for(i=0; i<graph->number_Of_nodes; i++) {
         free(graph->nodes[i]);
     }
-
     free(graph->nodes);
     free(graph);
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -130,7 +127,6 @@ void delete_edge(Graph *graph, Node *a, Node *b) {
         exit(1);
     }
 }
-
 
 
 void delete_node(Graph *graph, Node *node) {
@@ -339,9 +335,9 @@ int tsp(Graph *graph, char list [], int len){
         w+= Dijsktra(graph, save_id1, save_id2);
 
     }
-        if(w>=1000){
-         return -1;
-        }
+    if(w>=1000){
+        return -1;
+    }
 
     return w;
 }
@@ -349,9 +345,6 @@ int tsp(Graph *graph, char list [], int len){
 void T(char ans [],Graph *graph){
   printf( "TSP shortest path: %d\n", tsp(graph,ans, strlen(ans)));
 }
-////////////////////////////////////////////////////////////
-
-
 
 //////////////////////////////////////////////////////
 int main(){
@@ -492,6 +485,11 @@ int main(){
     free(cnt);
     free(current);
     free(ans);
+
+////////////////////////////////////////////
+
+    
+
 }
 
 
