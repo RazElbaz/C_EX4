@@ -28,10 +28,6 @@ typedef struct graph_ {
     struct node_ **nodes; /* list of pointers of nodes */
 } Graph;
 
-typedef struct path_t {
-    char *path; /* represent a path in string */
-    double Len;
-} Path;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -158,12 +154,7 @@ void delete_node(Graph *graph, Node *node) {
         }}
 
 }
-
-
-
 ///////////////////////////////////////////////////////////////////////////////////
-
-
 int getNodeIndex(Graph *graph, Node *node) {
     int i;
     Node *n;
@@ -355,10 +346,6 @@ int tsp(Graph *graph, char list [], int len){
     return w;
 }
 //////////////////////////////////////////////
-
-
-///////////////////////////////////////////////
-
 void T(char ans [],Graph *graph){
   printf( "TSP shortest path: %d\n", tsp(graph,ans, strlen(ans)));
 }
@@ -366,7 +353,7 @@ void T(char ans [],Graph *graph){
 
 
 
-
+//////////////////////////////////////////////////////
 int main(){
     char f[1024];
     gets(f);
@@ -506,9 +493,6 @@ int main(){
     free(current);
     free(ans);
 }
-//
-//    return 0;
-//
-//}
+
 
 //A 4 n 0 2 5 3 3 n 2 0 4 1 1 n 1 3 7 0 2 n 3 B 5 0 4 2 1 B 2 1 3 5 1 D 5 A 2 n 0 1 2 n 1 0 3
